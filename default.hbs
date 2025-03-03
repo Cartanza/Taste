@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{meta_title}}</title>
     <link rel="stylesheet" href="{{asset "built/screen.css"}}">
-
+    <link rel="stylesheet" href="{{asset "css/font-awesome.min.css"}}">
+    <script src="{{asset "built/main.min.js"}}"></script>
+    
     {{#is "home"}}
         {{#if @site.cover_image}}
             <link rel="preload" as="image" href="{{@site.cover_image}}">
@@ -68,8 +70,45 @@
     {{> "pswp"}}
 {{/is}}
 
-<script src="{{asset "built/main.min.js"}}"></script>
+<script>
+    // Select the cart icon and header cart elements
+    const cartIcon = document.querySelector('i.fs-12.fa.fa-shopping-bag');
+    const headerCart = document.querySelector('div.cartanza-header-cart');
 
+    document.addEventListener('click', (event) => {
+        if (cartIcon.contains(event.target)) {
+            headerCart.classList.toggle('show-header-dropdown');
+        } else if (!headerCart.contains(event.target)) {
+            headerCart.classList.remove('show-header-dropdown');
+        }
+    });
+    window.onload = function() {
+        getCart();
+    }
+</script>
+<script>
+    async function logout(event) {
+    event.preventDefault();
+    try {
+        const response = await fetch('/members/api/session', {
+            method: 'DELETE', // HTTP method
+            headers: {
+                'Content-Type': 'application/json' // Specify JSON payload
+            },
+            body: JSON.stringify({ all: false }) // Convert the data to JSON string
+        });
+
+        if (response.ok) {
+            console.log('Session logged out successfully');
+            window.location.href = '/';
+        } else {
+            console.error('Failed to logout of session:', response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+</script>
 {{ghost_foot}}
 
 </body>
