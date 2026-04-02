@@ -1,10 +1,11 @@
-{{!< default}}
-
+{{#*inline "body"}}
 <main class="gh-main gh-outer">
     <div class="gh-inner">
-        {{#tag}}
-            {{> "components/tag-header"}}
-        {{/tag}}
-        {{> "components/list" layout="grid" column="4" showPrimaryTag=true hasPagination=true}}
+        {{#with tag}}
+            {{> partials/components/tag-header}}
+        {{/with}}
+        {{> partials/components/list layout="grid" column="4" showPrimaryTag=true hasPagination=true}}
     </div>
 </main>
+{{/inline}}
+{{> default}}

@@ -1,9 +1,10 @@
-{{!< default}}
-
-{{#post}}
+{{#*inline "body"}}
+{{#with post}}
 
 <main class="gh-main">
-    {{> "components/article"}}
+    {{> partials/components/article}}
 </main>
 
-{{/post}}
+{{/with}}
+{{/inline}}
+{{> default}}

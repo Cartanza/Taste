@@ -1,6 +1,6 @@
 <article class="gh-article {{post_class}}">
 
-    {{#match @page.show_title_and_feature_image}}
+    {{#match show_title_and_feature_image}}
         <header class="gh-article-header gh-canvas">
             {{!--
                 HTML comments used in this block are intentional.
@@ -14,7 +14,7 @@
                     {{/if}}
                 {{/if}}
                 {{#if showPublishedAt}}
-                    <time class="gh-article-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time>
+                    <time class="gh-article-meta-date" datetime="{{date published_at format="YYYY-MM-DD"}}">{{date published_at format="DD MMM YYYY"}}</time>
                 {{/if}}
                 {{#if showReadingTime}}
                     <span class="gh-article-meta-length">{{reading_time}}</span>
@@ -50,7 +50,7 @@
     {{/match}}
 
     <section class="gh-content gh-canvas">
-        {{content}}
+        {{{content}}}
     </section>
 
     {{#if showComments}}

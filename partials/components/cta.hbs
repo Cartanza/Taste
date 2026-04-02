@@ -1,5 +1,6 @@
-{{#if @site.members_enabled}}
-    {{#unless @member}}
+{{#if @root.site.members_enabled}}
+    {{#unless @root.member}}
+        {{#unless site.members_invite_only}}
         <section class="gh-cta gh-outer">
             <div class="gh-cta-inner gh-inner">
                 {{#if title}}
@@ -8,5 +9,6 @@
                 <button class="gh-cta-input" data-portal>jamie@example.com <span>Subscribe</span></button>
             </div>
         </section>
+        {{/unless}}
     {{/unless}}
 {{/if}}

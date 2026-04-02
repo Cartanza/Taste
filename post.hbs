@@ -1,10 +1,11 @@
-{{!< default}}
-
-{{#post}}
+{{#*inline "body"}}
+{{#with post}}
 
 <main class="gh-main">
-    {{> "components/article" showPrimaryTag=true showComments=true}}
-    {{> "components/cta" title=@custom.email_signup_text}}
+    {{> partials/components/article showPrimaryTag=true showComments=true}}
+    {{> partials/components/cta title=@root.custom.email_signup_text}}
 </main>
 
-{{/post}}
+{{/with}}
+{{/inline}}
+{{> default}}

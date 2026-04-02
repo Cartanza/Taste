@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{@site.locale}}">
+<html lang="{{@root.site.locale}}">
 
 <head>
     <meta charset="utf-8">
@@ -7,17 +7,16 @@
     <title>{{meta_title}}</title>
     <link rel="stylesheet" href="{{asset "built/screen.css"}}">
     <link rel="stylesheet" href="{{asset "css/font-awesome.min.css"}}">
-    <script src="{{asset "built/main.min.js"}}"></script>
     
     {{#is "home"}}
-        {{#if @site.cover_image}}
-            <link rel="preload" as="image" href="{{@site.cover_image}}">
+        {{#if @root.site.cover_image}}
+            <link rel="preload" as="image" href="{{@root.site.cover_image}}">
         {{/if}}
     {{/is}}
 
     <style>
         :root {
-            --background-color: {{@custom.background_color}}
+            --background-color: {{@root.custom.background_color}}
         }
     </style>
 
@@ -38,7 +37,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    {{#match @custom.style "Elegant"}}
+    {{#match @root.custom.style "Elegant"}}
         <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&display=swap" rel="stylesheet">
     {{else}}
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;0,700;1,400;1,700&display=swap" rel="stylesheet">
@@ -47,70 +46,92 @@
     {{ghost_head}}
 </head>
 
-<body class="{{body_class}}{{{block "body_class"}}} is-font-{{#match @custom.style "Elegant"}}serif{{else}}sans{{/match}}">
+<body class="{{body_class}}{{{block "body_class"}}} is-font-{{#match @root.custom.style "Elegant"}}serif{{else}}sans{{/match}}">
 <div class="gh-site">
 
     {{#is "home"}}
-        {{#match @custom.header_action "Subscribe"}}
-            {{> "components/navbar" navigationLayout=@custom.navigation_layout hideSubscribeButton=true}}
+        {{#match @root.custom.header_action "Subscribe"}}
+            {{> partials/components/navbar navigationLayout=@root.custom.navigation_layout hideSubscribeButton=true}}
         {{else}}
-            {{> "components/navbar" navigationLayout=@custom.navigation_layout}}
+            {{> partials/components/navbar navigationLayout=@root.custom.navigation_layout}}
         {{/match}}
     {{else}}
-        {{> "components/navbar" navigationLayout=@custom.navigation_layout}}
+        {{> partials/components/navbar navigationLayout=@root.custom.navigation_layout}}
     {{/is}}
 
-    {{{body}}}
+    {{~> body}}
 
-    {{> components/footer footerText=@custom.footer_text}}
+    {{> partials/components/footer footerText=@root.custom.footer_text}}
 
 </div>
 
 {{#is "post, page"}}
-    {{> "pswp"}}
+    {{> partials/pswp}}
 {{/is}}
 
 <script>
     // Select the cart icon and header cart elements
     const cartIcon = document.querySelector('i.fs-12.fa.fa-shopping-bag');
-    const headerCart = document.querySelector('div.cartanza-header-cart');
+    if(cartIcon) {
+        const headerCart = document.querySelector('div.cartanza-header-cart');
 
-    document.addEventListener('click', (event) => {
-        if (cartIcon.contains(event.target)) {
-            headerCart.classList.toggle('show-header-dropdown');
-        } else if (!headerCart.contains(event.target)) {
-            headerCart.classList.remove('show-header-dropdown');
+        document.addEventListener('click', (event) => {
+            if (cartIcon.contains(event.target)) {
+                headerCart.classList.toggle('show-header-dropdown');
+            } else if (!headerCart.contains(event.target)) {
+                headerCart.classList.remove('show-header-dropdown');
+            }
+        });
+        window.onload = function() {
+            getCart();
         }
-    });
-    window.onload = function() {
-        getCart();
     }
 </script>
 <script>
-    async function logout(event) {
-    event.preventDefault();
-    try {
-        const response = await fetch('/members/api/session', {
-            method: 'DELETE', // HTTP method
-            headers: {
-                'Content-Type': 'application/json' // Specify JSON payload
-            },
-            body: JSON.stringify({ all: false }) // Convert the data to JSON string
-        });
+    let wasInPortal = window.location.hash.includes('/portal/');
 
-        if (response.ok) {
-            console.log('Session logged out successfully');
-            window.location.href = '/';
-        } else {
-            console.error('Failed to logout of session:', response.status, response.statusText);
+    function checkPortal() {
+        const isInPortal = window.location.hash.includes('/portal/');
+        if (isInPortal) {
+            wasInPortal = true;
+        } else if (wasInPortal) {
+            wasInPortal = false;
+            window.location.reload();
         }
-    } catch (error) {
-        console.error('Error:', error);
     }
-}
+
+    window.addEventListener('hashchange', () => {
+        checkPortal();
+    });
+    
+    // Ghost Portal often uses history.replaceState to close, which doesn't trigger hashchange.
+    // We check the hash every 500ms while we believe the portal is open.
+    setInterval(checkPortal, 500);
+
+    async function logout(event) {
+        event.preventDefault();
+        try {
+            const response = await fetch('/members/api/session/', {
+                method: 'DELETE', // HTTP method
+                headers: {
+                    'Content-Type': 'application/json' // Specify JSON payload
+                },
+                body: JSON.stringify({ all: false }) // Convert the data to JSON string
+            });
+
+            if (response.ok) {
+                console.log('Session logged out successfully');
+                window.location.href = '/';
+            } else {
+                console.error('Failed to logout of session:', response.status, response.statusText);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 </script>
 {{ghost_foot}}
-
+<script src="{{asset "built/main.min.js"}}"></script>
 </body>
 
 </html>

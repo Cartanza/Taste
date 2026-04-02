@@ -1,41 +1,42 @@
-{{!< default}}
-
+{{#*inline "body"}}
 <main class="gh-main">
 
-    {{#match @custom.header_action "No action"}}
-        {{> "components/header" layout="wide" background="image" primary=@custom.primary_header secondary=@custom.secondary_header}}
-    {{else match @custom.header_action "Search"}}
-        {{> "components/header" layout="wide" background="image" action="search" primary=@custom.primary_header secondary=@custom.secondary_header}}
-    {{else match @custom.header_action "Subscribe"}}
-        {{> "components/header" layout="wide" background="image" action="email" primary=@custom.primary_header secondary=@custom.secondary_header}}
+    {{#match @root.custom.header_action "No action"}}
+        {{> partials/components/header layout="wide" background="image" primary=@root.custom.primary_header secondary=@root.custom.secondary_header}}
+    {{else match @root.custom.header_action "Search"}}
+        {{> partials/components/header layout="wide" background="image" action="search" primary=@root.custom.primary_header secondary=@root.custom.secondary_header}}
+    {{else match @root.custom.header_action "Subscribe"}}
+        {{> partials/components/header layout="wide" background="image" action="email" primary=@root.custom.primary_header secondary=@root.custom.secondary_header}}
     {{/match}}
 
-    {{> "components/list" layout="magazine" count="5" showExcerpt=true showPrimaryTag=true}}
+    {{> partials/components/list layout="magazine" count="5" showExcerpt=true showPrimaryTag=true}}
 
-    {{#if @custom.enter_tag_slugs_for_homepage_sections}}
-        {{#get "tags" filter="slug:[{{@custom.enter_tag_slugs_for_homepage_sections}}]"}}
+    {{#if @root.custom.enter_tag_slugs_for_homepage_sections}}
+        {{#get "tags" filter="slug:[{{@root.custom.enter_tag_slugs_for_homepage_sections}}]"}}
             {{#foreach tags}}
-                {{#if @odd}}
-                    {{> "components/list" layout="grid" column="3" count="3" showHeader=true}}
+                {{#if @root.odd}}
+                    {{> partials/components/list layout="grid" column="3" count="3" showHeader=true}}
                 {{else}}
-                    {{> "components/list" layout="grid" column="4" count="4" showHeader=true}}
+                    {{> partials/components/list layout="grid" column="4" count="4" showHeader=true}}
                 {{/if}}
             {{/foreach}}
         {{/get}}
     {{else}}
-        {{#match posts.length ">" 1}}
+        {{#match (length posts) ">" 1}}
             {{#get "tags" include="count.posts" order="count.posts desc" limit="3"}}
                 {{#foreach tags}}
-                    {{#if @odd}}
-                        {{> "components/list" layout="grid" column="3" count="3" showHeader=true}}
+                    {{#if @root.odd}}
+                        {{> partials/components/list layout="grid" column="3" count="3" showHeader=true}}
                     {{else}}
-                        {{> "components/list" layout="grid" column="4" count="4" showHeader=true}}
+                        {{> partials/components/list layout="grid" column="4" count="4" showHeader=true}}
                     {{/if}}
                 {{/foreach}}
             {{/get}}
         {{/match}}
     {{/if}}
 
-    {{> "components/cta" title=@custom.email_signup_text}}
+    {{> partials/components/cta title=@root.custom.email_signup_text}}
 
 </main>
+{{/inline}}
+{{> default}}

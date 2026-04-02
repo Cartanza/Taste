@@ -7,76 +7,76 @@
     <div class="gh-head-inner{{#unless fullWidth}} gh-inner{{/unless}}">
         <div class="gh-head-brand">
             <div class="gh-head-brand-wrapper">
-                <a class="gh-head-logo" href="{{@site.url}}">
-                    {{#if @site.logo}}
-                        <img src="{{@site.logo}}" alt="{{@site.title}}">
+                <a class="gh-head-logo" href="{{@root.site.url}}">
+                    {{#if @root.site.logo}}
+                        <img src="{{@root.site.logo}}" alt="{{@root.site.title}}">
                     {{else}}
-                        {{@site.title}}
+                        {{@root.site.title}}
                     {{/if}}
                 </a>
             </div>
-            <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+            <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> partials/icons/search}}</button>
             <button class="gh-burger"></button>
         </div>
 
         <nav class="gh-head-menu">
             {{navigation}}
-            {{#unless @site.members_enabled}}
+            {{#unless @root.site.members_enabled}}
                 {{#match navigationLayout "Stacked"}}
-                    <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+                    <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> partials/icons/search}}</button>
                 {{/match}}
             {{/unless}}
         </nav>
 
         <div class="gh-head-actions">
-            {{#unless @site.members_enabled}}
-                {{^match navigationLayout "Stacked"}}
-                    <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+            {{#unless @root.site.members_enabled}}
+                {{#match navigationLayout "!=" "Stacked"}}
+                    <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> partials/icons/search}}</button>
                 {{/match}}
             {{else}}
-                <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> "icons/search"}}</button>
+                <button class="gh-search gh-icon-btn" aria-label="Search this site" data-ghost-search>{{> partials/icons/search}}</button>
                 <div class="gh-head-members">
-                    {{#unless @member}}
-                        {{#unless @site.members_invite_only}}
-                            <a class="gh-head-link" href="#/portal/signin" data-portal="signin">Sign in</a>
+                    {{#unless @root.member}}
+                        {{#unless @root.site.members_invite_only}}
+                            <a class="gh-head-link" href="/#/portal/signin" data-portal="signin">Sign in</a>
                             {{#unless hideSubscribeButton}}
-                                <a class="gh-head-btn gh-btn gh-primary-btn" href="#/portal/signup" data-portal="signup">Subscribe</a>
+                                <a class="gh-head-btn gh-btn gh-primary-btn" href="/#/portal/signup" data-portal="signup">Subscribe</a>
                             {{/unless}}
                         {{else}}
-                            <a class="gh-head-btn gh-btn gh-primary-btn" href="#/portal/signin" data-portal="signin">Sign in</a>
+                            <a class="gh-head-btn gh-btn gh-primary-btn" href="/#/portal/signin" data-portal="signin">Sign in</a>
                         {{/unless}}
                     {{else}}
-                        <a class="gh-head-btn gh-btn gh-primary-btn" href="#/portal/account" data-portal="account">Account</a>
+                        <a class="gh-head-btn gh-btn gh-primary-btn" href="/#/portal/account" data-portal="account">Account</a>
                     {{/unless}}
+                    {{#if @root.site.commerce_enabled}}
                     <div class="cartanza-cart-container">
-                            <i class="fs-12 fa fa-shopping-bag" aria-hidden="true" style="color:#666666;font-size: 2em;margin-top: 15px;"></i>
-                            <span class="header-icons-noti cartanza-cart-total" style="display: -webkit-box;display: -webkit-flex;display: -moz-box;display: -ms-flexbox;display: flex;justify-content: center;align-items: center;width: 20px;height: 20px;border-radius: 50%;background-color: #111111;color: white;font-size: 12px;position: relative;top: -30px;right: -20px;" >3</span>
-                            <div class="cartanza-header-cart">
-                                <ul class="header-cart-wrapitem" style="max-height: 270px;overflow: auto;">
-                                    <li class="header-cart-item" style="text-align: center;">
-                                        <span class="header-cart-item-info" style="color: black;">Empty Cart</span>
-                                    </li>
-                                </ul>
-                                <div class="header-cart-total" style="font-size: 15px;color: #555555;line-height: 1.3;text-align: right;padding-top: 15px;padding-bottom: 25px;padding-right: 3px;">
-                                    Subtotal : $0.00
+                        <i class="fs-12 fa fa-shopping-bag" aria-hidden="true" style="color:#666666;font-size: 2em;margin-top: 15px;"></i>
+                        <span class="header-icons-noti cartanza-cart-total" style="display: -webkit-box;display: -webkit-flex;display: -moz-box;display: -ms-flexbox;display: flex;justify-content: center;align-items: center;width: 20px;height: 20px;border-radius: 50%;background-color: #111111;color: white;font-size: 12px;position: relative;top: -30px;right: -20px;" >0</span>
+                        <div class="cartanza-header-cart">
+                            <ul class="header-cart-wrapitem" style="max-height: 270px;overflow: auto;">
+                                <li class="header-cart-item" style="text-align: center;">
+                                    <span class="header-cart-item-info" style="color: black;">Empty Cart</span>
+                                </li>
+                            </ul>
+                            <div class="header-cart-total" style="font-size: 15px;color: #555555;line-height: 1.3;text-align: right;padding-top: 15px;padding-bottom: 25px;padding-right: 3px;">
+                                Subtotal : $0.00
+                            </div>
+                            <div class="header-cart-buttons" style="    display: -webkit-box;display: -webkit-flex;display: -moz-box;display: -ms-flexbox;display: flex;flex-wrap: wrap;justify-content: space-between;align-items: center;">
+                                <div class="header-cart-wrapbtn" style="width: calc((100% - 10px) / 2);padding: 0px;box-sizing: border-box;">
+                                <!-- Button -->
+                                <a href="/cart" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" style="border-radius:20px;background-color:#222222;align-items: center;color: white;text-transform:uppercase;padding:12px 20px;">
+                                    View Cart
+                                </a>
                                 </div>
-                                <div class="header-cart-buttons" style="    display: -webkit-box;display: -webkit-flex;display: -moz-box;display: -ms-flexbox;display: flex;flex-wrap: wrap;justify-content: space-between;align-items: center;">
-                                    <div class="header-cart-wrapbtn" style="width: calc((100% - 10px) / 2);padding: 0px;box-sizing: border-box;">
-                                    <!-- Button -->
-                                    <a href="/cart" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" style="border-radius:20px;background-color:#222222;align-items: center;color: white;text-transform:uppercase;padding:12px 20px;">
-                                        View Cart
-                                    </a>
-                                    </div>
-                                    <div class="header-cart-wrapbtn" style="width: calc((100% - 10px) / 2);padding: 0px;box-sizing: border-box;">
-                                    <!-- Button -->
-                                    <a href="/checkout" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" style="border-radius:20px;background-color:#222222;align-items: center;color: white;text-transform:uppercase;padding:12px 20px;">
-                                        Checkout
-                                    </a>
-                                    </div>
-                                </div>
-                                </div>
+                                <div class="header-cart-wrapbtn" style="width: calc((100% - 10px) / 2);padding: 0px;box-sizing: border-box;">
+                                <!-- Button -->
+                                <a href="/checkout" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4" style="border-radius:20px;background-color:#222222;align-items: center;color: white;text-transform:uppercase;padding:12px 20px;">
+                                    Checkout
+                                </a>
+                            </div>
                         </div>
-                </div>
+                    </div>
+                    {{/if}}
             {{/unless}}
         </div>
     </div>
