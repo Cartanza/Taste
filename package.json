@@ -42,6 +42,10 @@
         },
         "card_assets": true,
         "custom": {
+            "site_background_color": {
+                "type": "color",
+                "default": "#ffffff"
+            },
             "style": {
                 "type": "select",
                 "options": ["Elegant", "Playful"],
